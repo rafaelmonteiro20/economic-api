@@ -1,0 +1,13 @@
+package com.economic;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EconomicApiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EconomicApiApplication.class, args);
+	}
+	
+}
