@@ -3,6 +3,8 @@ package com.economic.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,7 @@ public class PessoasResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> criar(@RequestBody Pessoa pessoa) {
+	public ResponseEntity<?> criar(@Valid @RequestBody Pessoa pessoa) {
 		pessoa = pessoaRepository.save(pessoa);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
