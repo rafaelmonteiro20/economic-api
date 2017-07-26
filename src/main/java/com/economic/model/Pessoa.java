@@ -49,7 +49,7 @@ public class Pessoa {
 		this.telefone = telefone;
 	}
 
-	public Boolean isAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
 
