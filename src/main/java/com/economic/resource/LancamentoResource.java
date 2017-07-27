@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
 import com.economic.service.LancamentoService;
+import com.economic.service.exception.PessoaInexistenteOuInativaException;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -34,13 +37,8 @@ public class LancamentoResource {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
-	@PostMapping
-	public ResponseEntity<?> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
-		lancamento = lancamentoService.salvar(lancamento);
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getId()));
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
-	}
+	@Autowired
+	private MessageSource messageSource;
 	
 	@GetMapping
 	public List<Lancamento> pesquisar() {
@@ -53,4 +51,18 @@ public class LancamentoResource {
 		return lancamento == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(lancamento);
 	}
 	
+	@PostMapping
+	public ResponseEntity<?> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
+		try {
+			lancamento = lancamentoService.salvar(lancamento);
+			publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getId()));
+			
+			return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
+		} catch (PessoaInexistenteOuInativaException e) {
+			String mensagem = messageSource.getMessage("pessoa.inexistente-ou-inativa", 
+					null, LocaleContextHolder.getLocale());
+			
+			return ResponseEntity.badRequest().body(mensagem);
+		}
+	}
 }
