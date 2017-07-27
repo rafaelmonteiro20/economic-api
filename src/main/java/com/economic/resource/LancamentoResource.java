@@ -3,6 +3,7 @@ package com.economic.resource;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -34,7 +35,7 @@ public class LancamentoResource {
 	private ApplicationEventPublisher publisher;
 	
 	@PostMapping
-	public ResponseEntity<?> criar(@RequestBody Lancamento lancamento, HttpServletResponse response) {
+	public ResponseEntity<?> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
 		lancamento = lancamentoService.salvar(lancamento);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getId()));
 		

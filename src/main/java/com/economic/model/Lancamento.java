@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Lancamento {
@@ -20,25 +23,31 @@ public class Lancamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank
 	private String descricao;
 
+	@NotNull
 	@Column(name = "data_vencimento")
 	private LocalDate dataVencimento;
 
 	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento;
 
+	@NotNull
 	private BigDecimal valor;
 
 	private String observacao;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private TipoLancamento tipo;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
