@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
+import com.economic.repository.filter.LancamentoFilter;
 import com.economic.service.LancamentoService;
 import com.economic.service.exception.PessoaInexistenteOuInativaException;
 
@@ -41,8 +42,8 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
-	public List<Lancamento> pesquisar() {
-		return lancamentoRepository.findAll();
+	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+		return lancamentoRepository.pesquisar(lancamentoFilter);
 	}
 	
 	@GetMapping("/{id}")
