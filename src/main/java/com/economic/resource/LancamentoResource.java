@@ -25,6 +25,7 @@ import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
 import com.economic.repository.filter.LancamentoFilter;
+import com.economic.repository.projection.ResumoLancamento;
 import com.economic.service.LancamentoService;
 import com.economic.service.exception.PessoaInexistenteOuInativaException;
 
@@ -48,6 +49,12 @@ public class LancamentoResource {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return lancamentoRepository.pesquisar(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 	
 	@GetMapping("/{id}")
