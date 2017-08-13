@@ -10,15 +10,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.economic.config.property.EconomicApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
-	private String originPermitida = "http://localhost:8000";
+	@Autowired
+	private EconomicApiProperty economicApiProperty;
 	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -26,6 +30,8 @@ public class CorsFilter implements Filter {
 		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
+		
+		String originPermitida = economicApiProperty.getOriginPermitida();
 		
 		response.setHeader("Access-Control-Allow-Origin", originPermitida);
         response.setHeader("Access-Control-Allow-Credentials", "true");
