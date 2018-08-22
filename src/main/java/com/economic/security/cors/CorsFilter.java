@@ -1,4 +1,5 @@
-package com.economic.cors;
+package com.economic.security.cors;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -40,10 +41,9 @@ public class CorsFilter implements Filter {
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
         	response.setHeader("Access-Control-Max-Age", "3600");
-			
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
-			chain.doFilter(req, resp);
+			chain.doFilter(request, response);
 		}
 		
 	}

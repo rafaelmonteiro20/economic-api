@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("economic")
 public class EconomicApiProperty {
 
-	private final Seguranca seguranca = new Seguranca();
+	private final Security security = new Security();
 
-	private String originPermitida = "http://localhost:8000";
+	private String originPermitida = "http://localhost:4200";
 
 	
-	public Seguranca getSeguranca() {
-		return seguranca;
+	public Security getSecurity() {
+		return security;
 	}
 
 	public String getOriginPermitida() {
@@ -22,7 +22,7 @@ public class EconomicApiProperty {
 		this.originPermitida = originPermitida;
 	}
 
-	public static class Seguranca {
+	public static class Security {
 
 		private boolean enableHttps;
 

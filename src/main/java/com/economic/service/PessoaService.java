@@ -26,10 +26,9 @@ public class PessoaService {
 		return pessoaRepository.save(existente);
 	}
 	
-	public void atualizarStatus(Long id, Boolean ativo) {
+	public void mudarStatus(Long id) {
 		Pessoa pessoa = buscarPessoa(id);
-		
-		pessoa.setAtivo(ativo);
+		pessoa.mudarStatus();
 		pessoaRepository.save(pessoa);
 	}
 

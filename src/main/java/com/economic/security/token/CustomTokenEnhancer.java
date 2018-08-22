@@ -1,4 +1,4 @@
-package com.economic.config.token;
+package com.economic.security.token;
 
 import java.util.HashMap;
 import java.util.Map;

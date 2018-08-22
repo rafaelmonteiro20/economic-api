@@ -1,4 +1,4 @@
-package com.economic.token;
+package com.economic.security.token;
 
 import java.io.IOException;
 import java.util.Map;
@@ -28,10 +28,7 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		
-		if ("/oauth/token".equalsIgnoreCase(req.getRequestURI()) 
-				&& "refresh_token".equals(req.getParameter("grant_type"))
-				&& req.getCookies() != null) {
-			
+		if (temCookieRefreshToken(req)) {
 			for (Cookie cookie : req.getCookies()) {
 				if (cookie.getName().equals("refreshToken")) {
 					String refreshToken = cookie.getValue();
@@ -43,13 +40,19 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 		chain.doFilter(req, response);
 	}
 	
+	private boolean temCookieRefreshToken(HttpServletRequest request) {
+		return "/oauth/token".equalsIgnoreCase(request.getRequestURI()) 
+				&& "refresh_token".equals(request.getParameter("grant_type"))
+				&& request.getCookies() != null;
+	}
+	
 	@Override
 	public void destroy() {
 		
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
 		
 	}
 	

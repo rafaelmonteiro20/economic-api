@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import com.economic.config.token.CustomTokenEnhancer;
+import com.economic.security.token.CustomTokenEnhancer;
 
 @Configuration
 @EnableAuthorizationServer
@@ -32,7 +32,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.secret("angular@123")
 			.scopes("read", "write")
 			.authorizedGrantTypes("password", "refresh_token")
-			.accessTokenValiditySeconds(1800)
+			.accessTokenValiditySeconds(180)
 			.refreshTokenValiditySeconds(3600 * 24);
 	}
 	
@@ -41,8 +41,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
 		
-		endpoints
-			.tokenStore(tokenStore())
+		endpoints.tokenStore(tokenStore())
+			.accessTokenConverter(accessTokenConverter())
 			.tokenEnhancer(tokenEnhancerChain)
 			.reuseRefreshTokens(false)
 			.authenticationManager(authenticationManager);

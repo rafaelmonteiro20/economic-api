@@ -1,5 +1,6 @@
 package com.economic.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,22 @@ public class LancamentoService {
 
 	public void remover(Long id) {
 		lancamentoRepository.delete(id);
+	}
+	
+	public Lancamento atualizar(Long id, Lancamento lancamento) {
+		Lancamento lancamentoSalvo = buscarLancamento(id);
+		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id");
+		return lancamentoRepository.save(lancamentoSalvo);
+	}
+	
+	private Lancamento buscarLancamento(Long id) {
+		Lancamento lancamento = lancamentoRepository.findOne(id);
+		
+		if (lancamento == null) {
+			throw new IllegalArgumentException();
+		}
+
+		return lancamento;
 	}
 	
 }

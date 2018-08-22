@@ -1,4 +1,5 @@
 package com.economic.security;
+
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,9 @@ import com.economic.model.Usuario;
 
 public class UsuarioSistema extends User {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
