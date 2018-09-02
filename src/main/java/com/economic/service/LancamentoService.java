@@ -20,22 +20,32 @@ public class LancamentoService {
 	private PessoaRepository pessoaRepository;
 	
 	public Lancamento salvar(Lancamento lancamento) {
-		Pessoa pessoa = pessoaRepository.findOne(lancamento.getPessoa().getId());
-		
-		if(pessoa == null || pessoa.isInativo())
-			throw new PessoaInexistenteOuInativaException();
-		
+		validarPessoa(lancamento);
 		return lancamentoRepository.save(lancamento);
 	}
 
-	public void remover(Long id) {
-		lancamentoRepository.delete(id);
-	}
-	
 	public Lancamento atualizar(Long id, Lancamento lancamento) {
-		Lancamento lancamentoSalvo = buscarLancamento(id);
+		Lancamento lancamentoSalvo = this.buscarLancamento(id);
+		
+		if(!lancamento.getPessoa().equals(lancamentoSalvo.getPessoa())) {
+			validarPessoa(lancamento);
+		}
+		
 		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "id");
 		return lancamentoRepository.save(lancamentoSalvo);
+	}
+	
+	private void validarPessoa(Lancamento lancamento) {
+		
+		Pessoa pessoa = lancamento.getPessoa();
+		
+		if(pessoa.getId() != null) {
+			pessoa = pessoaRepository.findOne(pessoa.getId());
+		}
+		
+		if(pessoa == null || pessoa.isInativo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
 	}
 	
 	private Lancamento buscarLancamento(Long id) {
@@ -46,6 +56,10 @@ public class LancamentoService {
 		}
 
 		return lancamento;
+	}
+	
+	public void remover(Long id) {
+		lancamentoRepository.delete(id);
 	}
 	
 }

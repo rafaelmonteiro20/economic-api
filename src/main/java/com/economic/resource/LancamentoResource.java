@@ -5,8 +5,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,6 @@ import com.economic.repository.LancamentoRepository;
 import com.economic.repository.filter.LancamentoFilter;
 import com.economic.repository.projection.ResumoLancamento;
 import com.economic.service.LancamentoService;
-import com.economic.service.exception.PessoaInexistenteOuInativaException;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -42,9 +39,6 @@ public class LancamentoResource {
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
-	@Autowired
-	private MessageSource messageSource;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
@@ -68,17 +62,9 @@ public class LancamentoResource {
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO')")
 	public ResponseEntity<?> criar(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
-		try {
-			lancamento = lancamentoService.salvar(lancamento);
-			publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getId()));
-			
-			return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
-		} catch (PessoaInexistenteOuInativaException e) {
-			String mensagem = messageSource.getMessage("pessoa.inexistente-ou-inativa", 
-					null, LocaleContextHolder.getLocale());
-			
-			return ResponseEntity.badRequest().body(mensagem);
-		}
+		lancamento = lancamentoService.salvar(lancamento);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamento.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
 	}
 	
 	@DeleteMapping("/{id}")
