@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Pessoa;
 import com.economic.repository.PessoaRepository;
+import com.economic.repository.filter.PessoaFilter;
 import com.economic.service.PessoaService;
 
 @RestController
@@ -40,8 +41,8 @@ public class PessoasResource {
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
-	public List<Pessoa> listar() {
-		return pessoaRepository.findAll();
+	public List<Pessoa> pesquisar(PessoaFilter filter) {
+		return pessoaRepository.pesquisar(filter);
 	}
 	
 	@PostMapping
