@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.economic.dto.LancamentoCategoria;
+import com.economic.dto.LancamentoDia;
 import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
@@ -93,6 +94,12 @@ public class LancamentoResource {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
 	public List<LancamentoCategoria> porCategoria() {
 		return lancamentoRepository.porCategoria(LocalDate.now());
+	}
+
+	@GetMapping("/estatistica/por-dia")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
+	public List<LancamentoDia> porDia() {
+		return lancamentoRepository.porDia(LocalDate.now());
 	}
 	
 }
