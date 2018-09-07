@@ -1,5 +1,6 @@
 package com.economic.repository.lancamento;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import com.economic.dto.LancamentoCategoria;
 import com.economic.model.Categoria_;
 import com.economic.model.Lancamento;
 import com.economic.model.Lancamento_;
@@ -108,6 +110,29 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		
 		criteria.select(builder.count(root));
 		return manager.createQuery(criteria).getSingleResult();
+	}
+
+	@Override
+	public List<LancamentoCategoria> porCategoria(LocalDate mesReferencia) {
+
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<LancamentoCategoria> criteria = builder.createQuery(LancamentoCategoria.class);
+		Root<Lancamento> root = criteria.from(Lancamento.class);
+		
+		criteria.select(builder.construct(LancamentoCategoria.class, 
+				root.get(Lancamento_.categoria),
+				builder.sum(root.get(Lancamento_.valor))));
+		
+		LocalDate dataInicio = mesReferencia.withDayOfMonth(1);
+		LocalDate dataFim = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
+		
+		criteria.where(
+				builder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), dataInicio),
+				builder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), dataFim));
+		
+		criteria.groupBy(root.get(Lancamento_.categoria));
+		
+		return manager.createQuery(criteria).getResultList();
 	}
 
 }

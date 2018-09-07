@@ -1,5 +1,8 @@
 package com.economic.resource;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.economic.dto.LancamentoCategoria;
 import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
@@ -83,6 +87,12 @@ public class LancamentoResource {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	@GetMapping("/estatistica/por-categoria")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
+	public List<LancamentoCategoria> porCategoria() {
+		return lancamentoRepository.porCategoria(LocalDate.now());
 	}
 	
 }
