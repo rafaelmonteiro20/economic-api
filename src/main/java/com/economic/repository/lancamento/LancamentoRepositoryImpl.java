@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import com.economic.dto.LancamentoCategoria;
 import com.economic.dto.LancamentoDia;
+import com.economic.dto.LancamentoPessoa;
 import com.economic.model.Categoria_;
 import com.economic.model.Lancamento;
 import com.economic.model.Lancamento_;
@@ -157,6 +158,28 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		
 		criteria.groupBy(root.get(Lancamento_.tipo), 
 						 root.get(Lancamento_.dataVencimento));
+		
+		return manager.createQuery(criteria).getResultList();
+	}
+
+	@Override
+	public List<LancamentoPessoa> porPessoa(LocalDate inicio, LocalDate fim) {
+		
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<LancamentoPessoa> criteria = builder.createQuery(LancamentoPessoa.class);
+		Root<Lancamento> root = criteria.from(Lancamento.class);
+		
+		criteria.select(builder.construct(LancamentoPessoa.class, 
+				root.get(Lancamento_.tipo),
+				root.get(Lancamento_.pessoa).get(Pessoa_.nome),
+				builder.sum(root.get(Lancamento_.valor))));
+		
+		criteria.where(
+				builder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), inicio),
+				builder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), fim));
+		
+		criteria.groupBy(root.get(Lancamento_.tipo), 
+						 root.get(Lancamento_.pessoa));
 		
 		return manager.createQuery(criteria).getResultList();
 	}
