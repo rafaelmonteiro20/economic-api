@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d05e359-d634-45eb-90fe-c5f4c984197b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="DATA_INICIO" class="java.util.Date"/>
+	<parameter name="DATA_FIM" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="pessoa" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="20" uuid="91274bf1-6289-420e-9d9f-5cba538dcd0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lançamentos por Pessoa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="25" width="555" height="15" uuid="033877bb-0873-46f6-aed3-e5d48a62a6f2"/>
+				<textFieldExpression><![CDATA["Período de " + DATEFORMAT($P{DATA_INICIO}, "dd/MM/yyyy") + " até " + DATEFORMAT($P{DATA_FIM}, "dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="15" backcolor="#CCCCCC" uuid="b8c30e22-429b-4384-9371-cf7b3aee02e5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="80" y="0" width="395" height="15" backcolor="#CCCCCC" uuid="7393212b-b000-4eda-aa4c-0fee64ed6ddf"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Pessoa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="475" y="0" width="80" height="15" backcolor="#CCCCCC" uuid="0fa6d6f9-a58c-4e96-9bd8-271d98740c52"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="0" width="394" height="15" uuid="81f56fd5-f268-4ccb-b401-5197d047aed5"/>
+				<textFieldExpression><![CDATA[$F{pessoa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<textField>
+				<reportElement x="0" y="10" width="280" height="15" uuid="6a36da88-78e7-4649-a8fb-c929aa130e09"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Gerado em " + DATEFORMAT(TODAY( ), "dd/MM/yyyy HH:mm")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="10" width="100" height="15" uuid="ef4d5ea7-127a-47ed-8c48-c67af39f1b5f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

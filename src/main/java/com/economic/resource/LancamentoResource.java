@@ -90,13 +90,13 @@ public class LancamentoResource {
 		}
 	}
 	
-	@GetMapping("/estatistica/por-categoria")
+	@GetMapping("/estatisticas/por-categoria")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
 	public List<LancamentoCategoria> porCategoria() {
 		return lancamentoRepository.porCategoria(LocalDate.now());
 	}
 
-	@GetMapping("/estatistica/por-dia")
+	@GetMapping("/estatisticas/por-dia")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
 	public List<LancamentoDia> porDia() {
 		return lancamentoRepository.porDia(LocalDate.now());
