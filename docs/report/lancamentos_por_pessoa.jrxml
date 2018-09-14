@@ -9,6 +9,7 @@
 	</queryString>
 	<field name="pessoa" class="java.lang.String"/>
 	<field name="total" class="java.math.BigDecimal"/>
+	<field name="tipo.descricao" class="java.lang.String"/>
 	<title>
 		<band height="50" splitType="Stretch">
 			<staticText>
@@ -35,7 +36,7 @@
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="80" y="0" width="395" height="15" backcolor="#CCCCCC" uuid="7393212b-b000-4eda-aa4c-0fee64ed6ddf"/>
+				<reportElement mode="Opaque" x="80" y="0" width="375" height="15" backcolor="#CCCCCC" uuid="7393212b-b000-4eda-aa4c-0fee64ed6ddf"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
@@ -43,7 +44,7 @@
 				<text><![CDATA[Pessoa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="475" y="0" width="80" height="15" backcolor="#CCCCCC" uuid="0fa6d6f9-a58c-4e96-9bd8-271d98740c52"/>
+				<reportElement mode="Opaque" x="455" y="0" width="100" height="15" backcolor="#CCCCCC" uuid="0fa6d6f9-a58c-4e96-9bd8-271d98740c52"/>
 				<box>
 					<pen lineWidth="0.5"/>
 				</box>
@@ -53,10 +54,42 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="36" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement x="80" y="0" width="394" height="15" uuid="81f56fd5-f268-4ccb-b401-5197d047aed5"/>
+				<reportElement x="80" y="0" width="374" height="22" uuid="81f56fd5-f268-4ccb-b401-5197d047aed5"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5" lineStyle="Solid" lineColor="#555555"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#555555"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{pessoa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="80" height="22" uuid="b7f63b73-15da-410a-bee0-15ee1591af41"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid" lineColor="#555555"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#555555"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo.descricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="454" y="0" width="100" height="22" uuid="976caa77-58a6-4e80-83b2-8afb1b90c006"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5" lineColor="#555555"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#555555"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

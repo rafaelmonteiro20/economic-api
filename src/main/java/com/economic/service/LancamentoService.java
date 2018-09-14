@@ -86,7 +86,7 @@ public class LancamentoService {
 		parametros.put("REPORT_LOCALE", new Locale("pt", "BR"));
 		
 		InputStream inputStream = this.getClass().getResourceAsStream(
-				"/report/lancamento_por_pessoa.jasper");
+				"/report/lancamentos_por_pessoa.jasper");
 		
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros,
 				new JRBeanCollectionDataSource(dados));
