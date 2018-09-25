@@ -22,7 +22,7 @@ public class MailConfig {
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", true);
-		props.put("mail.starttls.enable", true);
+		props.put("mail.smtp.starttls.enable", true);
 		props.put("mail.smtp.connectiontimeout", 10 * 1000);
 		
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
