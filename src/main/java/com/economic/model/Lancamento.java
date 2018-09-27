@@ -123,6 +123,11 @@ public class Lancamento {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
+	
+	@Override
+	public String toString() {
+		return "[" + id + ", " + descricao + "]";
+	}
 
 	@Override
 	public int hashCode() {
