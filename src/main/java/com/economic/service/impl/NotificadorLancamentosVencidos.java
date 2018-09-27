@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,8 @@ public class NotificadorLancamentosVencidos implements Notificador {
 	private static final String TEMPLATE = "mail/aviso-lancamentos-vencidos";
 	private static final String ASSUNTO_EMAIL = "Lançamentos vencidos";
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotificadorLancamentosVencidos.class);
+	
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 	
@@ -40,13 +44,28 @@ public class NotificadorLancamentosVencidos implements Notificador {
 	
 	@Scheduled(cron = "0 0 6 * * *")
 	public void notificar() {
+		
+		LOGGER.info("Iniciando busca de lançamentos vencidos...");
+		
 		List<Lancamento> lancamentos = lancamentoRepository
 				.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
 	
-		if(!lancamentos.isEmpty()) {
-			List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(PERMISSAO);
-			this.avisarSobreLancamentosVencidos(lancamentos, destinatarios);
+		if(lancamentos.isEmpty()) {
+			LOGGER.info("Nenhum lançamento vencido encontrado.");
+			return;
+		} 
+		
+		LOGGER.info("Encontrado {} lançamentos vencidos.", lancamentos.size());
+		
+		List<Usuario> destinatarios = usuarioRepository.findByPermissoesDescricao(PERMISSAO);
+		
+		if(destinatarios.isEmpty()) {
+			LOGGER.info("Nenhum destinário encontrado.");
+			return;
 		}
+		
+		this.avisarSobreLancamentosVencidos(lancamentos, destinatarios);
+		LOGGER.info("Envio de e-mail(s) realizado com sucesso.");
 	}
 	
 	private void avisarSobreLancamentosVencidos(List<Lancamento> vencidos, 
