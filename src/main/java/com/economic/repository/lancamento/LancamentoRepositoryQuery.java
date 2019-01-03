@@ -24,5 +24,7 @@ public interface LancamentoRepositoryQuery {
 	List<LancamentoDia> porDia(LocalDate mesReferencia);
 
 	List<LancamentoPessoa> porPessoa(LocalDate inicio, LocalDate fim);
+	
+	Long count(LancamentoFilter filter);
 
 }

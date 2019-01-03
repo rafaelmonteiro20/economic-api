@@ -45,7 +45,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		TypedQuery<Lancamento> query = manager.createQuery(criteria);
 		adicionarRestricoesDePaginacao(query, pageable);
 		
-		return new PageImpl<>(query.getResultList(), pageable, total(filter));
+		return new PageImpl<>(query.getResultList(), pageable, count(filter));
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
 		adicionarRestricoesDePaginacao(query, pageable);
 		
-		return new PageImpl<>(query.getResultList(), pageable, total(filter));
+		return new PageImpl<>(query.getResultList(), pageable, count(filter));
 	}
 	
 	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
@@ -79,35 +79,36 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		query.setMaxResults(totalRegistrosPorPagina);
 	}
 
-	private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder,
+	private Predicate[] criarRestricoes(LancamentoFilter filter, CriteriaBuilder builder,
 			Root<Lancamento> root) {
 		
 		List<Predicate> predicates = new ArrayList<>();
 		
-		if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
+		if (!StringUtils.isEmpty(filter.getDescricao())) {
 			predicates.add(builder.like(
-					builder.lower(root.get(Lancamento_.descricao)), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
+					builder.lower(root.get(Lancamento_.descricao)), "%" + filter.getDescricao().toLowerCase() + "%"));
 		}
 		
-		if (lancamentoFilter.getDataVencimentoDe() != null) {
+		if (filter.getDataVencimentoDe() != null) {
 			predicates.add(builder.greaterThanOrEqualTo(
-					root.get(Lancamento_.dataVencimento), lancamentoFilter.getDataVencimentoDe()));
+					root.get(Lancamento_.dataVencimento), filter.getDataVencimentoDe()));
 		}
 		
-		if (lancamentoFilter.getDataVencimentoAte() != null) {
+		if (filter.getDataVencimentoAte() != null) {
 			predicates.add(builder.lessThanOrEqualTo(
-					root.get(Lancamento_.dataVencimento), lancamentoFilter.getDataVencimentoAte()));
+					root.get(Lancamento_.dataVencimento), filter.getDataVencimentoAte()));
 		}
 		
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 	
-	public Long total(LancamentoFilter lancamentoFilter) {
+	@Override
+	public Long count(LancamentoFilter filter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
 		Root<Lancamento> root = criteria.from(Lancamento.class);
 		
-		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
+		Predicate[] predicates = criarRestricoes(filter, builder, root);
 		criteria.where(predicates);
 		
 		criteria.select(builder.count(root));

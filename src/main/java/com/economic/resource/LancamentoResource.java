@@ -106,13 +106,13 @@ public class LancamentoResource {
 		return lancamentoRepository.porDia(LocalDate.now());
 	}
 	
-	@GetMapping("/relatorios/por-pessoa")
+	@GetMapping("/relatorio/por-pessoa")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
 	public ResponseEntity<byte[]> reatorioPorPessoa(
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate inicio,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) throws Exception {
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicio,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFim) throws Exception {
 		
-		byte[] dados = lancamentoService.relatorioPorPessoa(inicio, fim);
+		byte[] dados = lancamentoService.relatorioPorPessoa(dataInicio, dataFim);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
