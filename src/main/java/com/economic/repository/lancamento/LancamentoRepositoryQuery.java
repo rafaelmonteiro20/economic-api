@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 import com.economic.dto.LancamentoCategoria;
 import com.economic.dto.LancamentoDia;
 import com.economic.dto.LancamentoPessoa;
+import com.economic.dto.ResumoLancamento;
 import com.economic.model.Lancamento;
 import com.economic.repository.filter.LancamentoFilter;
-import com.economic.repository.projection.ResumoLancamento;
 
 public interface LancamentoRepositoryQuery {
 

@@ -29,11 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.economic.dto.LancamentoCategoria;
 import com.economic.dto.LancamentoDia;
+import com.economic.dto.ResumoLancamento;
 import com.economic.event.RecursoCriadoEvent;
 import com.economic.model.Lancamento;
 import com.economic.repository.LancamentoRepository;
 import com.economic.repository.filter.LancamentoFilter;
-import com.economic.repository.projection.ResumoLancamento;
 import com.economic.service.LancamentoService;
 
 @RestController

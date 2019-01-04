@@ -1,9 +1,9 @@
 package com.economic.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,14 +26,14 @@ public class Usuario {
 	
 	private String senha;
 	
-	private boolean root;
+	private Boolean root;
 	
-	private boolean ativo = true;
+	private Boolean ativo;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "id_usuario"),
 		inverseJoinColumns = @JoinColumn(name = "id_permissao"))
-	private List<Permissao> permissoes;
+	private List<Permissao> permissoes = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -67,19 +67,19 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public boolean isRoot() {
+	public Boolean isRoot() {
 		return root;
 	}
 
-	public void setRoot(boolean root) {
+	public void setRoot(Boolean root) {
 		this.root = root;
 	}
 
-	public boolean isAtivo() {
+	public Boolean isAtivo() {
 		return ativo;
 	}
 
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 

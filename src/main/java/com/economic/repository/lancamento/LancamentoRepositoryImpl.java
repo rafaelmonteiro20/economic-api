@@ -20,12 +20,12 @@ import org.springframework.util.StringUtils;
 import com.economic.dto.LancamentoCategoria;
 import com.economic.dto.LancamentoDia;
 import com.economic.dto.LancamentoPessoa;
+import com.economic.dto.ResumoLancamento;
 import com.economic.model.Categoria_;
 import com.economic.model.Lancamento;
 import com.economic.model.Lancamento_;
 import com.economic.model.Pessoa_;
 import com.economic.repository.filter.LancamentoFilter;
-import com.economic.repository.projection.ResumoLancamento;
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 

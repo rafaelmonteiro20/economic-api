@@ -1,4 +1,4 @@
-package com.economic.repository.projection;
+package com.economic.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
