@@ -2,6 +2,8 @@ package com.economic.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -17,8 +19,9 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Transactional
 	public Usuario salvar(Usuario usuario) {
-		return usuario;
+		return usuarioRepository.save(usuario);
 	}
 	
 	public List<Usuario> pesquisar(UsuarioFilter filtro) {
