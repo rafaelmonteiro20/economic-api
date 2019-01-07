@@ -10,13 +10,16 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.economic.event.RecursoCriadoEvent;
+import com.economic.model.Permissao;
 import com.economic.model.Usuario;
+import com.economic.repository.PermissaoRepository;
 import com.economic.repository.filter.UsuarioFilter;
 import com.economic.service.UsuarioService;
 
@@ -26,6 +29,9 @@ public class UsuariosResource {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private PermissaoRepository permissaoRepository;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -40,6 +46,11 @@ public class UsuariosResource {
 		usuario = usuarioService.salvar(usuario);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, usuario.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+	}
+	
+	@GetMapping("/{id}/permissoes")
+	public List<Permissao> permissoes(@PathVariable Long id) {
+		return permissaoRepository.findByUsuario(id);
 	}
 	
 }
